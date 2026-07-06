@@ -11,7 +11,10 @@
                 <div>
                     <h2 class="text-xl font-bold text-gray-800"><?= htmlspecialchars($nasabah['nama_lengkap']) ?></h2>
                     <p class="text-sm text-gray-500"><?= $nasabah['no_nasabah'] ?> • NIK: <?= $nasabah['nik'] ?></p>
-                    <div class="mt-2"><?= Helper::getStatusBadge($nasabah['status']) ?></div>
+                    <div class="mt-2 flex flex-wrap gap-2 items-center">
+                        <?= Helper::getStatusBadge($nasabah['status']) ?>
+                        <?= Helper::getNasabahSegmentBadge($nasabah['segment_key'] ?? 'mass', $nasabah['segment_label'] ?? 'Mass Segment') ?>
+                    </div>
                 </div>
             </div>
             <div class="flex gap-2">
@@ -74,6 +77,19 @@
         <!-- Sidebar Info -->
         <div class="space-y-6">
             <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-semibold text-gray-700 mb-4"><i class="fas fa-layer-group mr-2 text-indigo-600"></i>Segmentasi Nasabah</h3>
+                <div class="space-y-3 text-sm mb-5">
+                    <div>
+                        <span class="text-gray-500">Saldo / AUM</span>
+                        <p class="font-semibold text-base"><?= Helper::formatRupiah($nasabah['total_aum'] ?? 0) ?></p>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Klasifikasi</span>
+                        <p class="font-medium mt-1"><?= htmlspecialchars($nasabah['segment_label'] ?? 'Mass Segment') ?></p>
+                        <p class="text-xs text-gray-500 mt-1"><?= htmlspecialchars($nasabah['segment_description'] ?? '-') ?></p>
+                    </div>
+                </div>
+
                 <h3 class="font-semibold text-gray-700 mb-4"><i class="fas fa-info-circle mr-2 text-btn-primary"></i>Info Sistem</h3>
                 <div class="space-y-3 text-sm">
                     <div><span class="text-gray-500">Terdaftar</span><p class="font-medium"><?= Helper::formatTanggal($nasabah['created_at']) ?></p></div>

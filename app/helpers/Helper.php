@@ -118,4 +118,27 @@ class Helper {
         $label = ucfirst(str_replace('_', ' ', $status));
         return "<span class=\"px-2 py-1 rounded-full text-xs font-medium {$class}\">{$label}</span>";
     }
+
+    public static function getNasabahSegmentBadge(string $segmentKey, ?string $segmentLabel = null): string {
+        $colors = [
+            'mass' => 'bg-gray-100 text-gray-800',
+            'prima' => 'bg-blue-100 text-blue-800',
+            'prospera' => 'bg-green-100 text-green-800',
+            'prioritas' => 'bg-yellow-100 text-yellow-800',
+            'private' => 'bg-rose-100 text-rose-800',
+        ];
+
+        $labels = [
+            'mass' => 'Mass Segment',
+            'prima' => 'BTN Prima',
+            'prospera' => 'BTN Prospera',
+            'prioritas' => 'BTN Prioritas',
+            'private' => 'BTN Private',
+        ];
+
+        $class = $colors[$segmentKey] ?? 'bg-gray-100 text-gray-800';
+        $label = $segmentLabel ?: ($labels[$segmentKey] ?? ucfirst(str_replace('_', ' ', $segmentKey)));
+
+        return "<span class=\"px-2 py-1 rounded-full text-xs font-medium {$class}\">{$label}</span>";
+    }
 }

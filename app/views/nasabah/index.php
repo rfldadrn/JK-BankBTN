@@ -24,6 +24,17 @@
                 <option value="P" <?= $filter['jenis_kelamin'] === 'P' ? 'selected' : '' ?>>Perempuan</option>
             </select>
         </div>
+        <div>
+            <label class="block text-xs text-gray-500 mb-1">Segmen</label>
+            <select name="segmen" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-btn-primary outline-none">
+                <option value="">Semua Segmen</option>
+                <option value="mass" <?= ($filter['segmen'] ?? '') === 'mass' ? 'selected' : '' ?>>Mass Segment (&lt; Rp 10 Juta)</option>
+                <option value="prima" <?= ($filter['segmen'] ?? '') === 'prima' ? 'selected' : '' ?>>BTN Prima (Rp 10 - 100 Juta)</option>
+                <option value="prospera" <?= ($filter['segmen'] ?? '') === 'prospera' ? 'selected' : '' ?>>BTN Prospera (Rp 100 - 500 Juta)</option>
+                <option value="prioritas" <?= ($filter['segmen'] ?? '') === 'prioritas' ? 'selected' : '' ?>>BTN Prioritas (Rp 500 Juta - 15 Miliar)</option>
+                <option value="private" <?= ($filter['segmen'] ?? '') === 'private' ? 'selected' : '' ?>>BTN Private (&gt; Rp 15 Miliar)</option>
+            </select>
+        </div>
         <button type="submit" class="px-4 py-2 bg-btn-primary text-white rounded-lg text-sm hover:bg-blue-800">
             <i class="fas fa-search mr-1"></i> Cari
         </button>
@@ -51,6 +62,8 @@
                     <th class="px-4 py-3 text-left">Nama Lengkap</th>
                     <th class="px-4 py-3 text-left">NIK</th>
                     <th class="px-4 py-3 text-left">No. Telepon</th>
+                    <th class="px-4 py-3 text-right">Saldo / AUM</th>
+                    <th class="px-4 py-3 text-left">Segmen</th>
                     <th class="px-4 py-3 text-center">JK</th>
                     <th class="px-4 py-3 text-center">Status</th>
                     <th class="px-4 py-3 text-center">Aksi</th>
@@ -58,13 +71,18 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
                 <?php if (empty($nasabah)): ?>
-                <tr><td colspan="7" class="px-4 py-8 text-center text-gray-400">Tidak ada data nasabah.</td></tr>
+                <tr><td colspan="9" class="px-4 py-8 text-center text-gray-400">Tidak ada data nasabah.</td></tr>
                 <?php else: foreach ($nasabah as $i => $ns): ?>
                 <tr class="hover:bg-gray-50">
                     <td class="px-4 py-3 font-mono text-xs"><?= $ns['no_nasabah'] ?></td>
                     <td class="px-4 py-3 font-medium"><?= htmlspecialchars($ns['nama_lengkap']) ?></td>
                     <td class="px-4 py-3 font-mono text-xs"><?= $ns['nik'] ?></td>
                     <td class="px-4 py-3"><?= $ns['no_telepon'] ?></td>
+                    <td class="px-4 py-3 text-right font-semibold"><?= Helper::formatRupiah($ns['total_aum'] ?? 0) ?></td>
+                    <td class="px-4 py-3">
+                        <div><?= Helper::getNasabahSegmentBadge($ns['segment_key'] ?? 'mass', $ns['segment_label'] ?? 'Mass Segment') ?></div>
+                        <p class="text-xs text-gray-500 mt-1"><?= htmlspecialchars($ns['segment_description'] ?? '-') ?></p>
+                    </td>
                     <td class="px-4 py-3 text-center"><?= $ns['jenis_kelamin'] === 'L' ? '♂' : '♀' ?></td>
                     <td class="px-4 py-3 text-center"><?= Helper::getStatusBadge($ns['status']) ?></td>
                     <td class="px-4 py-3 text-center">

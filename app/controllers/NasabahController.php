@@ -13,6 +13,7 @@ class NasabahController extends Controller {
             'search' => $this->get('search', ''),
             'status' => $this->get('status', ''),
             'jenis_kelamin' => $this->get('jenis_kelamin', ''),
+            'segmen' => $this->get('segmen', ''),
         ];
         $page = max(1, (int)($this->get('page') ?? 1));
         $data = $this->model->getAll($filter, $page);
